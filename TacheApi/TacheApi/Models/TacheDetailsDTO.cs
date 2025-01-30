@@ -20,6 +20,7 @@ namespace TacheApi.Models
         [Example("false")]
         public bool EstAccomplie { get; set; }
 
+        [Required]
         [Description("Liste des étapes de la tâche")]
         public List<EtapeDTO> Etapes { get; set; } = new List<EtapeDTO>();
 
