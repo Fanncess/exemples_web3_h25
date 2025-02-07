@@ -31,7 +31,7 @@ builder.Services
 builder.Services.AddAuthorization(options =>
 {
     // Ajoute une policy pour chaque scope (permission) de l'API
-    string[] scopes = [];
+    string[] scopes = ["delete:taches","delete:etapes"];
 
     foreach (string scope in scopes)
     {

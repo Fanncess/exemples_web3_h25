@@ -25,6 +25,7 @@ namespace TacheApi.Controllers
             _context = context;
         }
 
+        [Authorize]
         [EndpointSummary("Récupère toutes les tâches de l'utilisateur")]
         [EndpointDescription("Récupère toutes les tâches de l'utilisateur de la base de données")]
         [ProducesResponseType<IEnumerable<TacheDTO>>(StatusCodes.Status200OK, "application/json")]
@@ -35,7 +36,7 @@ namespace TacheApi.Controllers
                 .Select(tache => new TacheDTO(tache)) // Transforme les tâches en TacheDTO
                 .ToListAsync(); // Récupère les tâches sous forme de liste
         }
-
+        [Authorize]
         [EndpointSummary("Récupère une tâche de l'utilisateur")]
         [EndpointDescription("Récupère une tâche de l'utilisateur de la base de données en fonction de son identifiant")]
         [ProducesResponseType<TacheDetailsDTO>(StatusCodes.Status200OK, "application/json")]
@@ -55,7 +56,7 @@ namespace TacheApi.Controllers
 
             return new TacheDetailsDTO(tache);
         }
-
+        [Authorize]
         [EndpointSummary("Met à jour une tâche de l'utilisateur")]
         [EndpointDescription("Met à jour une tâche de l'utilisateur de la base de données en fonction de son identifiant")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -102,9 +103,11 @@ namespace TacheApi.Controllers
             );
         }
 
+        [Authorize("delete:taches")]
         [EndpointSummary("Supprime une tâche")]
         [EndpointDescription("Supprime une tâche de la base de données en fonction de son identifiant")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTache(
