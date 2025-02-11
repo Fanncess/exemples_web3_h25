@@ -33,6 +33,7 @@ namespace TacheApi.Models
                 {
                     Id = 1,
                     Nom = "Faire les courses",
+                    UserId = "auth0|67a6141b2aca2d1dc6e40717",
                     EstAccomplie = false,
                     Secret = "secret tâche 1",
                 },
@@ -40,6 +41,7 @@ namespace TacheApi.Models
                 {
                     Id = 2,
                     Nom = "Faire le ménage",
+                    UserId = "auth0|67a6141b2aca2d1dc6e40717",
                     EstAccomplie = true,
                     Secret = "secret tâche 2",
                 },
@@ -47,6 +49,7 @@ namespace TacheApi.Models
                 {
                     Id = 3,
                     Nom = "Aller au garage",
+                    UserId = "auth0|67a6141b2aca2d1dc6e40717",
                     EstAccomplie = false,
                     Secret = "secret tâche 3",
                 }

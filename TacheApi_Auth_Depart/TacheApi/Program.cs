@@ -43,6 +43,8 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
+builder.Services.AddSingleton<Auth0Service, Auth0Service>();
+
 builder.Services.AddOpenApi(options =>
 {
     options.AddSchemaTransformer<ExampleSchemaTransformer>();

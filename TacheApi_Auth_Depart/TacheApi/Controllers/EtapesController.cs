@@ -17,6 +17,7 @@ namespace TacheApi.Controllers
     [ApiController]
     public class EtapesController : ControllerBase
     {
+        private readonly Auth0Service _auth0Service;
         private readonly AppDbContext _context;
 
         public EtapesController(AppDbContext context)
@@ -49,6 +50,10 @@ namespace TacheApi.Controllers
             {
                 return NotFound();
             }
+            if (!TacheAppartientAUtilisateur(idTache, User))
+            {
+                return Forbid(); // 403
+            }
 
             // Applique les modifications à l'étape
             etape.AppliquerUpsertDTO(etapeDTO);
@@ -74,6 +79,10 @@ namespace TacheApi.Controllers
             if (!TacheExiste(idTache))
             {
                 return NotFound();
+            }
+            if (!TacheAppartientAUtilisateur(idTache, User))
+            {
+                return Forbid(); // 403
             }
 
             Etape etape = new Etape(etapeDTO, idTache);
@@ -110,6 +119,10 @@ namespace TacheApi.Controllers
             {
                 return NotFound();
             }
+            if (!TacheAppartientAUtilisateur(idTache, User))
+            {
+                return Forbid(); // 403
+            }
 
             _context.Etapes.Remove(etape);
             await _context.SaveChangesAsync();
@@ -125,6 +138,13 @@ namespace TacheApi.Controllers
         private bool TacheExiste(long id)
         {
             return _context.Taches.Any(e => e.Id == id);
+        }
+
+        private bool TacheAppartientAUtilisateur(long tacheId, ClaimsPrincipal utilisateur)
+        {
+
+            return _context.Taches.Any(tache => tache.Id == tacheId && tache.UserId == _auth0Service.ObtenirIdUtilisateur(utilisateur)
+            );
         }
     }
 }

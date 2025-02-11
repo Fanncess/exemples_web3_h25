@@ -10,6 +10,10 @@ namespace TacheApi.Models
         [Description("L'identifiant unique de la tâche")]
         public long Id { get; set; }
 
+        [Required]
+        [Description("L'identifiant de l'utilisateur propriétaire")]
+        public string UserId {  get; set; }
+
         [MaxLength(255)]
         [Description("Le nom de la tâche")]
         [Example("Faire les courses")]
@@ -30,10 +34,11 @@ namespace TacheApi.Models
         {
         }
 
-        public Tache(TacheUpsertDTO dto)
+        public Tache(TacheUpsertDTO dto, string userId)
         {
             Nom = dto.Nom;
             EstAccomplie = dto.EstAccomplie;
+            UserId = userId;
         }
 
         public void AppliquerUpsertDTO(TacheUpsertDTO dto)

@@ -18,11 +18,13 @@ namespace TacheApi.Controllers
     [ApiController]
     public class TachesController : ControllerBase
     {
+        private readonly Auth0Service _auth0Service;
         private readonly AppDbContext _context;
 
-        public TachesController(AppDbContext context)
+        public TachesController(AppDbContext context, Auth0Service auth0Service)
         {
             _context = context;
+            _auth0Service = auth0Service;
         }
 
         [Authorize]
@@ -33,6 +35,7 @@ namespace TacheApi.Controllers
         public async Task<ActionResult<IEnumerable<TacheDTO>>> GetTaches()
         {
             return await _context.Taches // Récupère les tâches
+                .Where(tache => tache.UserId == _auth0Service.ObtenirIdUtilisateur(User)) // pour faire le lien avec l'utilisateur
                 .Select(tache => new TacheDTO(tache)) // Transforme les tâches en TacheDTO
                 .ToListAsync(); // Récupère les tâches sous forme de liste
         }
@@ -52,6 +55,10 @@ namespace TacheApi.Controllers
             if (tache == null)
             {
                 return NotFound();
+            }
+            if (!TacheAppartientAUtilisateur(id, User))
+            {
+                return Forbid(); // 403
             }
 
             return new TacheDetailsDTO(tache);
@@ -73,6 +80,10 @@ namespace TacheApi.Controllers
             {
                 return NotFound();
             }
+            if (!TacheAppartientAUtilisateur(id, User))
+            {
+                return Forbid(); // 403
+            }
 
             tache.AppliquerUpsertDTO(tacheDTO);
             _context.Entry(tache).State = EntityState.Modified;
@@ -91,7 +102,8 @@ namespace TacheApi.Controllers
             [FromBody][Description("La tâche à ajouter")] TacheUpsertDTO tacheDTO)
         {
             Tache tache = new Tache(
-                tacheDTO
+                tacheDTO,
+               _auth0Service.ObtenirIdUtilisateur(User)
             );
             _context.Taches.Add(tache);
             await _context.SaveChangesAsync();
@@ -117,15 +129,26 @@ namespace TacheApi.Controllers
                 .Include(tache => tache.Etapes)
                 .SingleOrDefaultAsync(tache => tache.Id == id);
 
+
             if (tache == null)
             {
                 return NotFound();
+            }
+            if (!TacheAppartientAUtilisateur(id, User))
+            {
+                return Forbid(); // 403
             }
 
             _context.Taches.Remove(tache);
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        private bool TacheAppartientAUtilisateur(long tacheId, ClaimsPrincipal utilisateur)
+        {
+
+            return _context.Taches.Any(tache => tache.Id == tacheId && tache.UserId == _auth0Service.ObtenirIdUtilisateur(utilisateur)
+            );
         }
     }
 }
