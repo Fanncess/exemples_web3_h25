@@ -31,7 +31,6 @@ namespace TacheApi.Controllers
         [EndpointDescription("Met à jour une étape d'une tâche de la base de données en fonction de son identifiant")]
         [ProducesResponseType(StatusCodes.Status204NoContent)] // L'étape a été modifiée avec succès
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // L'EtapeUpsertDTO reçu est invalide
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)] // Il est possible que l'utilisateur ne soit pas authentifié
         [ProducesResponseType(StatusCodes.Status404NotFound)] // Il est possible que l'étape n'existe pas
         [HttpPut("{idEtape}")]
         public async Task<IActionResult> PutEtape(
@@ -68,8 +67,10 @@ namespace TacheApi.Controllers
         [EndpointDescription("Ajoute une tâche à une tâche dans la base de données")]
         [ProducesResponseType<EtapeDTO>(StatusCodes.Status201Created, "application/json")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)
+
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
         public async Task<ActionResult<EtapeDTO>> PostEtape(
@@ -102,7 +103,6 @@ namespace TacheApi.Controllers
         [EndpointSummary("Supprime une étape d'une tâche")]
         [EndpointDescription("Supprime une étape d'une tâche de la base de données en fonction de son identifiant")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{idEtape}")]
         public async Task<IActionResult> DeleteEtape(

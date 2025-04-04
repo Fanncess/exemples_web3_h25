@@ -24,6 +24,7 @@ namespace TacheApi.Controllers
         [EndpointSummary("Récupère toutes les étapes d'une tâche")]
         [EndpointDescription("Récupère toutes les étapes d'une tâche de la base de données")]
         [ProducesResponseType<IEnumerable<EtapeDTO>>(StatusCodes.Status200OK, "application/json")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EtapeDTO>>> GetEtapes(
             [Description("L'identifiant de la tâche")] long idTache)
@@ -63,6 +64,7 @@ namespace TacheApi.Controllers
         [EndpointSummary("Met à jour une étape d'une tâche")]
         [EndpointDescription("Met à jour une étape d'une tâche de la base de données en fonction de son identifiant")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEtape(
@@ -89,6 +91,7 @@ namespace TacheApi.Controllers
         [EndpointSummary("Ajoute une étape à une tâche")]
         [EndpointDescription("Ajoute une tâche à une tâche dans la base de données")]
         [ProducesResponseType<EtapeDTO>(StatusCodes.Status201Created, "application/json")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
         public async Task<ActionResult<EtapeDTO>> PostEtape(

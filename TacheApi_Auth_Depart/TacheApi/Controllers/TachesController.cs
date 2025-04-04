@@ -92,7 +92,6 @@ namespace TacheApi.Controllers
             return NoContent();
         }
 
-        [Authorize]
         [EndpointSummary("Ajoute une tâche à l'utilisateur")]
         [EndpointDescription("Ajoute une tâche à l'utilisateur dans la base de données")]
         [ProducesResponseType<TacheDTO>(StatusCodes.Status201Created, "application/json")]
