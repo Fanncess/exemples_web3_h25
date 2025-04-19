@@ -1,22 +1,24 @@
 import { Message } from "~/components/messages/Message";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert, Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
-import { AuthContext } from "~/contexts/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type Message = {
   id: number;
-  nomUtilisateurAuteur: string;
+  nomUtilisateur: string;
   texte: string;
   dateAjout: string;
 };
+
+const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 
 export function Messages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [erreur, setErreur] = useState("");
   const { groupeId } = useParams();
+  const { getAccessTokenSilently } = useAuth0();
   const divMessages = useRef<HTMLDivElement>(null);
-  const { utilisateur } = useContext(AuthContext);
 
   useEffect(() => {
     let timeoutId: number;
@@ -29,12 +31,13 @@ export function Messages() {
       }
 
       try {
+        const token = await getAccessTokenSilently();
         const reponse = await fetch(
-          `https://localhost:7213/api/groupes/${groupeId}/messages`,
+          `${apiUrl}/api/groupes/${groupeId}/messages`,
           {
             signal: abortControler.signal,
             headers: {
-              ...utilisateur,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -93,7 +96,7 @@ export function Messages() {
       clearTimeout(timeoutId);
       abortControler.abort();
     };
-  }, [groupeId, utilisateur]); // Le hook useEffect s'exécute à chaque changement de groupeIdCourant
+  }, [groupeId]); // Le hook useEffect s'exécute à chaque changement de groupeIdCourant
 
   useEffect(() => {
     if (!divMessages.current) {

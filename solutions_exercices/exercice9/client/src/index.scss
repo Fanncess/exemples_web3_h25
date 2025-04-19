@@ -1,0 +1,37 @@
+// Activation de CSS Grid dans Bootstrap  
+// Référence : https://getbootstrap.com/docs/5.3/layout/css-grid/#how-it-works  
+$enable-cssgrid: true;  
+
+// Ajout de classes utilitaires personnalisées  
+// Référence : https://getbootstrap.com/docs/5.2/utilities/api/#api-explained  
+$utilities: (
+  "opacity": (
+    property: opacity,
+    class: opacity,
+    state: hover,
+    values: (
+      0: 0,
+      25: 0.25,
+      50: 0.5,
+      75: 0.75,
+      100: 1,
+    ),
+  ),
+  "transition": (
+    property: transition,
+    class: transition,
+    values: (
+      all: all 0.15s ease-in-out,
+      none: none,
+    ),
+  ),
+);
+
+// Importation de Bootstrap  
+@import "/node_modules/bootstrap/scss/bootstrap";  
+
+// Ajout de styles personnalisés  
+.text-pre-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
