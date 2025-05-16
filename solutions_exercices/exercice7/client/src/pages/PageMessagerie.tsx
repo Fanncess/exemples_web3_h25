@@ -4,7 +4,7 @@ import { Messages } from "~/components/messages/Messages";
 
 export function PageMessagerie() {
   return (
-    <div className="d-flex flex-fill gap-2">
+    <div className="d-flex flex-fill gap-2 overflow-auto">
       <aside className="d-flex flex-column gap-2">
         <Groupes />
       </aside>

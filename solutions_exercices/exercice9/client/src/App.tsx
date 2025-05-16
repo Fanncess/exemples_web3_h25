@@ -11,9 +11,9 @@ import { PageMessagerie } from "./pages/PageMessagerie";
 
 export function App() {
   return (
-    <div className="d-flex flex-column vh-100 vw-100 gap-2">
+    <div className="d-flex flex-column vh-100 vw-100 gap-2 overflow-hidden">
       <BarreNavigation />
-      <Container className="flex-fill d-flex">
+      <Container className="flex-fill d-flex overflow-auto">
         <Routes>
           <Route path="/" element={<PageAccueil />} />
           <Route

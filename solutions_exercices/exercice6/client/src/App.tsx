@@ -12,6 +12,8 @@ export function App() {
   }
 
   return (
-    <div className="d-flex flex-column vh-100 vw-100 gap-2">{contenu}</div>
+    <div className="d-flex flex-column vh-100 vw-100 gap-2 overflow-hidden">
+      {contenu}
+    </div>
   );
 }

@@ -24,7 +24,7 @@ export function App() {
   }
 
   return (
-    <div className="d-flex flex-column vh-100 vw-100 gap-2">
+    <div className="d-flex flex-column vh-100 vw-100 gap-2 overflow-hidden">
       <Routes>
         <Route path="/messagerie" element={<PageMessagerie />}></Route>
         <Route

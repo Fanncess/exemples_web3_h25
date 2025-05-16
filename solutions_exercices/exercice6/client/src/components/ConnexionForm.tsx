@@ -12,8 +12,9 @@ export function ConnexionForm() {
   const { setUtilisateur } = useContext(AuthContext);
 
   async function connecterUtilisateur() {
-
-    const utilisateur = UTILISATEURS.find((u) => u.nomUtilisateur === nomUtilisateur && u.motDePasse === motDePasse );
+    const utilisateur = UTILISATEURS.find(
+      (u) => u.nomUtilisateur === nomUtilisateur && u.motDePasse === motDePasse
+    );
 
     if (!utilisateur) {
       setErreur("Identifiants invalides");
@@ -39,7 +40,7 @@ export function ConnexionForm() {
   }
 
   return (
-    <div className="d-flex flex-column gap-2 border border-4 border-secondary p-2 rounded">
+    <div className="d-flex flex-column gap-2 border border-4 border-secondary p-2 rounded overflow-auto">
       <Alert
         variant="danger"
         show={!!erreur}
